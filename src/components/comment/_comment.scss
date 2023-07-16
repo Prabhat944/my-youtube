@@ -1,0 +1,16 @@
+
+
+.comment{
+    font-size: 0.9rem;
+    border-bottom: 2px solid #353946;
+
+    img{
+        width:40px;
+        height:40px;
+        object-fit: contain;
+        margin-right: 1rem;
+    }
+    &__header{
+        color: #fff;
+    }
+}
