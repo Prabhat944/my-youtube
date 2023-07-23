@@ -1,8 +1,9 @@
-import { CHANNEL_DETAILS_FAIL, CHANNEL_DETAILS_REQUEST, CHANNEL_DETAILS_SUCCESS, SET_SUBSCRIPTION_STATUS } from "../actionTypes";
+import { CHANNEL_DETAILS_FAIL, CHANNEL_DETAILS_REQUEST, CHANNEL_DETAILS_SUCCESS, CHANNEL_VIDEO_FAIL, CHANNEL_VIDEO_REQUEST, CHANNEL_VIDEO_SUCCESS, SET_SUBSCRIPTION_STATUS } from "../actionTypes";
 
 export const channelReducer = (prevState={
     loading:false,
     channel:{},
+    video:[],
     subscriptionStatus:false,
     error:null
 },action) => {
@@ -32,6 +33,23 @@ export const channelReducer = (prevState={
             return {
                 ...prevState,
                 subscriptionStatus:payload
+            }
+        case CHANNEL_VIDEO_REQUEST:
+            return {
+                ...prevState,
+                loading:true
+            }
+        case CHANNEL_VIDEO_SUCCESS:
+            return {
+                ...prevState,
+                video:payload,
+                loading:false
+            }
+        case CHANNEL_VIDEO_FAIL:
+            return {
+                ...prevState,
+                loading:false,
+                error:payload
             }
         default:
             return prevState;

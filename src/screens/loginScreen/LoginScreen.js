@@ -3,6 +3,7 @@ import './_loginScreen.scss';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/actions/auth.action';
+import ErrorBoundry from '../../components/errorBoundry/ErrorBoundry';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const LoginScreen = () => {
   },[auth])
   return (
     <div className='login'>
+      <ErrorBoundry title={'Login Screen'}>
       <div className='login__container'>
         <img src='https://pngimg.com/uploads/youtube/small/youtube_PNG12.png' alt=''/>
         <button onClick={handleLogin}>
@@ -28,6 +30,7 @@ const LoginScreen = () => {
         </button>
         <span>This project is made using Youtube data api</span>
       </div>
+      </ErrorBoundry>
     </div>
   )
 }

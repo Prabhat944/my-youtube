@@ -7,7 +7,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import moment from 'moment';
 import numeral from 'numeral';
 
-const Video = ({video}) => {
+const Video = ({video,channelScreen}) => {
   const navigate = useNavigate();
   const {id,snippet:{channelId,channelTitle,title,publishedAt,thumbnails:{medium}}} = video
   const [views,setViews] = useState(null);
@@ -16,7 +16,7 @@ const Video = ({video}) => {
 
   const seconds = moment.duration(duration).asSeconds();
   const _duration = moment.utc(seconds * 1000).format('mm:ss');
-  const _videoId = id?.videoId || id;
+  const _videoId = id?.videoId || video?.contentDetails?.videoId || id;
   
   const get_video_detail = async() =>{
    const {data:{items}} = await Api_Request('/videos',{
@@ -78,6 +78,7 @@ const Video = ({video}) => {
           <span>{moment(publishedAt).fromNow()}</span>
         </span>
       </div>
+      {!channelScreen &&
       <div className='video__channel'>
         {/* <img alt='' src={channelIcon?.url} /> */}
         <span>
@@ -87,7 +88,7 @@ const Video = ({video}) => {
           src={channelIcon?.url} />
         </span>
         <p>{channelTitle}</p>
-      </div>
+      </div>}
     </div>
   )
 }

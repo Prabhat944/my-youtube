@@ -10,6 +10,9 @@ import { useSelector } from 'react-redux';
 import 'react-loading-skeleton/dist/skeleton.css';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import WatchScreen from './screens/watchScreen/WatchScreen';
+import SearchScreen from './screens/searchScreen/SearchScreen';
+import SubscriptionScreen from './screens/subscriptionsScreen/SubscriptionScreen';
+import ChannelScreen from './screens/channelScreen/ChannelScreen';
 
 
 const Layout = ({children}) => {
@@ -47,13 +50,29 @@ const App = () => {
       <Routes>
       <Route exact path='/' element={<HomePage/>} />
       <Route path='/auth' element={<LoginScreen/>} />
-      <Route path='/search' element={<SearchMe/>}/>
+      <Route path='/search/:query' element={<SearchMe/>}/>
       <Route path='/watch/:id' element={<WatchPage/>}/>
+      <Route path='/feed/subscriptions' element={<SubscriptionPage/>}/>
+      <Route path='/channel/:channelId' element={<ChannelPage/>}/>
       <Route path='*' element={<NotFound/>}/>
       </Routes>
   )
 };
+function ChannelPage(){
+  return (
+    <Layout>
+      <ChannelScreen/>
+    </Layout>
+  )
+}
 
+function SubscriptionPage(){
+  return (
+    <Layout>
+      <SubscriptionScreen/>
+    </Layout>
+  )
+}
 function WatchPage(){
   return (
     <Layout>
@@ -65,7 +84,7 @@ function WatchPage(){
 function SearchMe(){
   return(
     <Layout>
-    <h1 >Search me</h1>
+    <SearchScreen/>
   </Layout>
   )
 };

@@ -1,4 +1,4 @@
-import { HOME_VIDEO_FAIL, HOME_VIDEO_REQUEST, HOME_VIDEO_SUCCESS, RELATED_VIDEO_FAIL, RELATED_VIDEO_REQUEST, RELATED_VIDEO_SUCCESS, SELECTED_VIDEO_FAIL, SELECTED_VIDEO_REQUEST, SELECTED_VIDEO_SUCCESS } from "../actionTypes";
+import { HOME_VIDEO_FAIL, HOME_VIDEO_REQUEST, HOME_VIDEO_SUCCESS, RELATED_VIDEO_FAIL, RELATED_VIDEO_REQUEST, RELATED_VIDEO_SUCCESS, SEARCHED_VIDEO_FAIL, SEARCHED_VIDEO_REQUEST, SEARCHED_VIDEO_SUCCESS, SELECTED_VIDEO_FAIL, SELECTED_VIDEO_REQUEST, SELECTED_VIDEO_SUCCESS } from "../actionTypes";
 import Api_Request from "../../api";
 
 export const getPopularVideos = () => async (dispatch,getState) => {
@@ -122,6 +122,41 @@ export const getRelatedVideo = id => async dispatch =>{
         console.log(error.response.data.message)
         dispatch({
             type:RELATED_VIDEO_FAIL,
+            payload:error.response.data.message
+        })
+    }
+}
+
+export const getSearchedVideo = (keyword,refresh) => async (dispatch,getState) =>{
+    try{
+        dispatch({
+            type:SEARCHED_VIDEO_REQUEST
+        });
+
+        const {data} = await Api_Request.get('/search',{
+            params:{
+                part:`snippet`,
+                maxResults:25,
+                pageToken:!refresh ? getState().searchVideos.nextPageToken : '',
+                q:keyword,
+                type:'channel,video'
+
+            }
+        })
+        
+        dispatch({
+            type:SEARCHED_VIDEO_SUCCESS,
+            payload:{
+                video:data?.items,
+                nextPageToken:data?.nextPageToken,
+                keyword:keyword
+            }
+        });
+        
+    }catch(error){
+        console.log(error.response.data.message)
+        dispatch({
+            type:SEARCHED_VIDEO_FAIL,
             payload:error.response.data.message
         })
     }

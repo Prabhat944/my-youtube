@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux'
 import { getRelatedVideo, getVideoDetailById } from '../../redux/actions/videos.action'
 import SkeltonHorizontalVideo from '../../components/skelton/SkeltonHorizontal'
+import ErrorBoundry from '../../components/errorBoundry/ErrorBoundry'
 
 
 const WatchScreen = () => {
@@ -24,7 +25,9 @@ const WatchScreen = () => {
     },[id])
   return (
     <Row>
+        <ErrorBoundry title='watch screen'>
         <Col lg={8}>
+            <ErrorBoundry title='watch screen player'>
             <div className='watchScreen__player'>
                 <iframe 
                 src={`https://www.youtube.com/embed/${id}`} 
@@ -35,14 +38,22 @@ const WatchScreen = () => {
                 height={'100%'}
                 />
             </div>
+            </ErrorBoundry>
+            <ErrorBoundry title='watch screen mete data'>
             {(!loading && id)? <VideoMetaData video={video} videoId={id} /> : <h2>Loading...</h2>}
+            </ErrorBoundry>
+            <ErrorBoundry title='watch screen comment'>
             <Comments videoId={id}/>
+            </ErrorBoundry>
         </Col>
         <Col lg={4}>
+            <ErrorBoundry title='related video list'>
             {!relatedVideoLoading ? relatedVideo?.filter(video=>video.snippet)?.map((items)=>(
                 <VideoHorizonal video={items} key={items?.id?.videoId}/>
             )) : [...Array(15)].map(()=>(<SkeltonHorizontalVideo />))}
+            </ErrorBoundry>
         </Col>
+        </ErrorBoundry>
     </Row>
   )
 }

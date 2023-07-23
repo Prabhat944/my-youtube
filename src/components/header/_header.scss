@@ -12,14 +12,21 @@
     position: fixed;
     top:0;
     z-index: 999;
-
+    &__myLogo{
+        h4{
+        color: #fff;
+        align-self: end;
+        margin: 0;
+        font-size: 26px;
+        }
+    }
     &__menu{
         display: none;
         cursor: pointer;
     }
     &__logo{
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
         object-fit: contain;
         display: block;
     }

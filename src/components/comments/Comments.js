@@ -6,7 +6,7 @@ import { addComment, getCommentOfVideoById } from '../../redux/actions/comment.a
 
 const Comments = ({videoId}) => {
   const dispatch = useDispatch();
-  const {photoURL} = useSelector(state=>state.auth.user);
+  const {user} = useSelector(state=>state.auth);
   const {comments} = useSelector(state=>state.commentList);
   const [userComment, setUserComment] = useState('');
 
@@ -34,7 +34,7 @@ const Comments = ({videoId}) => {
     <div className='comments'>
       <p>1234 Comments</p>
       <div className='comments__form'>
-        <img src={photoURL} alt='' className='rounded-circle mr-3' crossOrigin='anonymous' />
+        <img src={user?.photoURL} alt='' className='rounded-circle mr-3' crossOrigin='anonymous' />
         <form onSubmit={handleComment} className='d-flex flex-grow-1'>
             <input
               type='text'

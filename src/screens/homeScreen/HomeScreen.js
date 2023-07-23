@@ -6,6 +6,7 @@ import Video from '../../components/video/Video'
 import { getPopularVideos, getVideoByCategory } from '../../redux/actions/videos.action';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SkeltonVideo from '../../components/skelton/SkeltonVideo';
+import ErrorBoundry from '../../components/errorBoundry/ErrorBoundry';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -24,9 +25,12 @@ const HomeScreen = () => {
   },[dispatch])
   return (
     <Container>
-        <CategoriesBar />
+      <ErrorBoundry title={"Home Screen"}>
+        <ErrorBoundry title={'Category Bar'}>
+           <CategoriesBar />
+        </ErrorBoundry>
           <InfiniteScroll
-          dataLength={videos.length}
+          dataLength={videos?.length || 0}
           next={fetchData}
           hasMore={true}
           loader={
@@ -34,20 +38,25 @@ const HomeScreen = () => {
           }
           >
             <Row>
-            {!loading ? 
+            <ErrorBoundry title={'Video List'}>
+            {videos?.length > 0 &&
             videos.map((video)=>(
-                <Col key={video.id} xs={12} sm={6} md={4} lg={3} >
+                <Col key={`home-page-${video.id}`} xs={12} sm={6} md={4} lg={3} >
                 <Video video={video} />
                 </Col>
-            ))
-            :
+            ))}
+            </ErrorBoundry>
+            <ErrorBoundry title={'Video List Skelton'}>
+            {loading &&
             [...Array(20)].map(()=>(
               <Col xs={12} sm={6} md={4} lg={3} >
               <SkeltonVideo/>
               </Col>
             ))}
+            </ErrorBoundry>
             </Row>
           </InfiniteScroll>
+          </ErrorBoundry>
     </Container>
   )
 }

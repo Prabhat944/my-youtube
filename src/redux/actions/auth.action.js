@@ -38,12 +38,12 @@ export const login = () => async dispatch => {
 
 export const logout = () => async dispatch => {
     try{
-        await firebase.auth.signout();
         sessionStorage.removeItem('yt-access-token');
         sessionStorage.removeItem('yt-userInfo');
         dispatch({
             type:LOGOUT,
         });
+        await firebase.auth.signout();
 
     }catch(error){
         dispatch({
