@@ -104,7 +104,7 @@ export const getRelatedVideo = id => async dispatch =>{
         const {data} = await Api_Request('/search',{
             params:{
                 part:'snippet',
-                relatedToVideoId:id,
+                // relatedToVideoId:id,
                 maxResults:15,
                 type:'video'
             }
